@@ -1,0 +1,49 @@
+<html ng-app='friends_app'>
+<head>
+	<title>Full Mean Friends</title>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+	<script>
+	var friends_appModule = angular.module('friends_app', []);
+
+	friends_app.factory('FriendFactory', function(){
+		var friends = [
+		{name: 'riya', age:10},
+		{name: 'ved', age:8}];
+
+		factory.getFriends = function(callbak){
+			callbak(friends);
+		}
+
+		factory.addFriend = function(info, callbak){
+			friends.push({name: info.name, age: info.age});
+			callbak(friends);
+		}
+		return factory;
+	});
+
+	friends_app.controller('FriendsController', function($scope, FriendFactory){
+		
+		FriendFactory.getFriends(function(data){
+			$scope.friends = data;
+		})
+
+		$scope.addFriend= function(){
+			$scope.friends.push({name:$scope.new_friend.name, age:$scope.new_friend.age});
+			$scope.new_friend = {};
+		}
+	})
+	</script>
+</head>
+<body>
+<div ng-controller='FriendsController'>
+	<input type ='text' ng-model='new_friendname'>
+	<ul>
+		<li ng-repeat='friends in friend' order by name {{friend.name}}, {{friend.age}}></li>
+	</ul>
+<h1>Add a friend</h1>
+	<input type='text' ng-model='new_friend.name'>
+	<input type='text' ng-model='new_friend.age'>
+	<input type='submit' ng-click='addFriend()>'
+
+</body>
+</html>
